@@ -61,6 +61,18 @@ const bootScript = `
       root.classList.add("theme-dark");
       root.style.colorScheme = "dark";
       root.style.backgroundColor = cosmeticDark ? DARK_THEMES[equipped] : "#131F24";
+      // 免费深色：水合前就把 night 色板内联到 <html>，与 ThemeProvider 保持一致，
+      // 规避微信 X5 对 .theme-dark 块自定义属性继承不稳导致的页面底不黑
+      if (!cosmeticDark) {
+        root.style.setProperty("--app-bg", "#131F24");
+        root.style.setProperty("--app-bg-soft", "#131F24");
+        root.style.setProperty("--app-bg-softer", "#37464F");
+        root.style.setProperty("--app-card", "#202F36");
+        root.style.setProperty("--app-border", "#37464F");
+        root.style.setProperty("--app-ink", "#F1F5F9");
+        root.style.setProperty("--app-ink-light", "#CBD5E1");
+        root.style.setProperty("--app-ink-softer", "#94A3B8");
+      }
     }
   } catch (e) {}
   if ("serviceWorker" in navigator) {

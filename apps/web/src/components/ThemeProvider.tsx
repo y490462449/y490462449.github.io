@@ -60,18 +60,33 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.style.setProperty("--app-ink-light", d.inkLight ?? "#CBD5E1");
       root.style.setProperty("--app-ink-softer", d.inkSofter ?? "#94A3B8");
     } else {
-      // 免费深色 / 亮色：清掉内联覆盖，让 globals.css 的 night 缺省值生效
-      for (const p of [
-        "--app-bg",
-        "--app-bg-soft",
-        "--app-bg-softer",
-        "--app-card",
-        "--app-border",
-        "--app-ink",
-        "--app-ink-light",
-        "--app-ink-softer",
-      ]) {
-        root.style.removeProperty(p);
+      // 免费深色 / 亮色
+      if (freeDark) {
+        // 免费深色：把 night 色板内联到 <html>（最高优先级），与暗色美妆主题同路径。
+        // 微信内置浏览器（X5/TBS）对 globals.css `.theme-dark` 块里的自定义属性
+        // 继承到 background-color 偶发不稳，内联可绕开，确保页面底 / 题目区变暗。
+        root.style.setProperty("--app-bg", "#131F24");
+        root.style.setProperty("--app-bg-soft", "#131F24");
+        root.style.setProperty("--app-bg-softer", "#37464F");
+        root.style.setProperty("--app-card", "#202F36");
+        root.style.setProperty("--app-border", "#37464F");
+        root.style.setProperty("--app-ink", "#F1F5F9");
+        root.style.setProperty("--app-ink-light", "#CBD5E1");
+        root.style.setProperty("--app-ink-softer", "#94A3B8");
+      } else {
+        // 亮色：清掉内联覆盖，让 globals.css 的亮色缺省值生效
+        for (const p of [
+          "--app-bg",
+          "--app-bg-soft",
+          "--app-bg-softer",
+          "--app-card",
+          "--app-border",
+          "--app-ink",
+          "--app-ink-light",
+          "--app-ink-softer",
+        ]) {
+          root.style.removeProperty(p);
+        }
       }
     }
 

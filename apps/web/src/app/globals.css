@@ -269,50 +269,80 @@ button:focus-visible,
  * 仅覆盖最常用的背景 / 边框 / 文本 token，保持设计语言一致；
  * 主色（primary / secondary / danger）依然使用 Duolingo 原色，避免品牌漂移。
  * ============================================================ */
+/* 深色背景/边框/文字统一带实色兜底：
+   微信内置浏览器（X5/TBS）等部分 WebView 对 `background-color: var(--app-*) !important`
+   解析不稳定，会导致深色底不生效而文字已变浅（题目看不清）。实色声明在前、
+   var() 声明在后 —— var() 解析失败时整条无效被丢弃，实色即兜底生效；var() 正常
+   的环境（含美妆主题内联覆盖 --app-*）仍以后一条 var() 为准，不破坏主题色板。 */
 .theme-dark body {
+  background-color: #131F24 !important;
   background-color: var(--app-bg) !important;
-  color: var(--app-ink);
+  color: #F1F5F9 !important;
+  color: var(--app-ink) !important;
 }
 .theme-dark .bg-white,
 .theme-dark .bg-bg {
+  background-color: #202F36 !important;
   background-color: var(--app-card) !important;
 }
 .theme-dark .bg-white\/90 {
+  background-color: #202F36 !important;
   background-color: color-mix(in srgb, var(--app-card) 90%, transparent) !important;
 }
 .theme-dark .bg-bg-soft {
+  background-color: #131F24 !important;
+  background-color: var(--app-bg-soft) !important;
+}
+/* 答题/阅读等页面的 <main class="bg-bg-soft"> 页面底：用更高特异性 + 实色兜底再压一层，
+   即使微信 X5 对类选择器重映射偶发失效，也保证页面底色变暗、浅色题目文字可读 */
+html.theme-dark main.bg-bg-soft {
+  background-color: #131F24 !important;
   background-color: var(--app-bg-soft) !important;
 }
 .theme-dark .bg-bg-softer {
+  background-color: #37464F !important;
   background-color: var(--app-bg-softer) !important;
 }
 .theme-dark .border-bg-softer {
+  border-color: #37464F !important;
   border-color: var(--app-border) !important;
 }
 .theme-dark .border-bg {
+  border-color: #37464F !important;
   border-color: var(--app-border) !important;
 }
 .theme-dark .text-ink {
+  color: #F1F5F9 !important;
   color: var(--app-ink) !important;
 }
 .theme-dark .text-ink-light {
+  color: #CBD5E1 !important;
   color: var(--app-ink-light) !important;
 }
 .theme-dark .text-ink-softer {
+  color: #94A3B8 !important;
   color: var(--app-ink-softer) !important;
 }
 /* option-card 默认底色阴影（厚阴影颜色统一走 --shadow-card-color 变量） */
 .theme-dark .option-card {
-  background-color: var(--app-card);
-  border-color: var(--app-border);
-  color: var(--app-ink);
+  background-color: #202F36 !important;
+  background-color: var(--app-card) !important;
+  border-color: #37464F !important;
+  border-color: var(--app-border) !important;
+  color: #F1F5F9 !important;
+  color: var(--app-ink) !important;
 }
 .theme-dark .btn-chunky-ghost {
-  background-color: var(--app-card);
-  color: var(--app-ink-light);
-  border-color: var(--app-border);
+  background-color: #202F36 !important;
+  background-color: var(--app-card) !important;
+  color: #CBD5E1 !important;
+  color: var(--app-ink-light) !important;
+  border-color: #37464F !important;
+  border-color: var(--app-border) !important;
 }
 .theme-dark .btn-chunky-disabled {
-  background-color: var(--app-bg-softer);
-  color: var(--app-ink-softer);
+  background-color: #37464F !important;
+  background-color: var(--app-bg-softer) !important;
+  color: #94A3B8 !important;
+  color: var(--app-ink-softer) !important;
 }
